@@ -1,0 +1,21 @@
+# Entornos y cachés de Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Modelos y ejecutable descargados en tiempo de ejecución
+*.pt
+cloudflared
+cloudflared.download
+
+# Salidas locales; en Colab se guardan normalmente fuera del repositorio
+/jobs/
+/traffic-monitor/
+/apps/*/jobs/
+/apps/*/traffic-monitor/
+**/ultralytics/settings.json
