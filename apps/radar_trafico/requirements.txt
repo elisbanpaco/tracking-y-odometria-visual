@@ -1,0 +1,11 @@
+ultralytics>=8.4,<9
+lap
+fastapi
+uvicorn[standard]
+python-multipart
+av
+matplotlib
+numpy
+opencv-python
+torch
+pydantic>=2,<3
