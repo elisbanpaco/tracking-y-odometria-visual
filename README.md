@@ -18,7 +18,7 @@ Con una cámara fija, el desplazamiento de un auto en la imagen puede servir par
 
 | Aplicación | Qué puedes explorar | Entrada |
 | --- | --- | --- |
-| [Tracking 2D y trayectorias](apps/tracking_2d/README.md) | Detectar objetos con YOLO, comparar ByteTrack y BoT-SORT, contar cruces y consultar trayectorias | Video o webcam |
+| [Tracking 2D y trayectorias](apps/tracking_2d/README.md) | Seguir y contar objetos, medir velocidad y zonas y explorar compensación planar | Video o webcam |
 | [Radar de tráfico](apps/radar_trafico/README.md) | Calibrar una distancia, estimar km/h, mostrar alertas y generar analítica | Video MP4 de cámara fija |
 | [Odometría visual](apps/odometria_visual/README.md) | Estimar la trayectoria de una cámara móvil con ORB y comparar velocidades aparentes y compensadas | Video o webcam en movimiento |
 
@@ -80,12 +80,12 @@ El objetivo es comprender la diferencia entre tracking y odometría visual media
 | Parte del enunciado | Cómo se relaciona con el proyecto |
 | --- | --- |
 | Etapa 01 · Conceptos | Base teórica: pasos y tipos de odometría, comparación con odometría de ruedas, relación con VIO y SLAM, aplicaciones y diferencias frente al tracking, incluyendo RA, experiencias inmersivas y VFX. Las respuestas teóricas no están incluidas aquí. |
-| Etapa 02 · Aplicaciones y conceptos | Tracking incluye una comparación visual entre seguimiento 2D y estimación 3D, YOLO con ByteTrack o BoT-SORT, conteo por línea, CSV de trayectorias y analítica de video. Odometría permite explorar el caso de cámara móvil. |
+| Etapa 02 · Aplicaciones y conceptos | Tracking incluye comparación conceptual, YOLO con ByteTrack o BoT-SORT, conteo, CSV, velocidad y zonas en video y webcam, calibración local y compensación planar con ORB para cámara móvil. |
 | Etapa 03 · Nivel 1: radar de velocidad | Radar incorpora calibración con una distancia conocida, estimación en km/h y alertas por exceso. La distancia puede obtenerse manualmente con Google Maps. |
 | Etapa 03 · Nivel 2: analítica de tránsito | Radar exporta CSV, mapa de calor y gráfica temporal al terminar de procesar el video. |
 | Etapa 03 · Nivel 3: cámara en movimiento | Odometría combina YOLO y ByteTrack con ORB, emparejamiento y estimación de pose para comparar movimiento aparente y compensado. |
 
-Hay diferencias entre lo solicitado y el alcance actual que conviene tener presentes al preparar una demostración: tracking resume la velocidad media en px/s al finalizar el video; su webcam no muestra velocidad instantánea ni mapa de calor. Radar recibe archivos MP4 y genera reportes al terminar el análisis, antes de cerrar el programa. Su CSV resume cada ID y el mapa muestra ocupación de zonas sin clasificar carriles automáticamente. El informe final tampoco está incluido.
+Tracking muestra velocidad aparente y calor en webcam; en video exporta mediciones por fotograma y un resumen final. La compensación del apartado 2.d es planar, distinta de la odometría 3D de la etapa 03. Radar recibe archivos MP4 y genera reportes al terminar el análisis, antes de cerrar el programa. Su CSV resume cada ID y el mapa muestra ocupación de zonas sin clasificar carriles automáticamente. El informe final tampoco está incluido.
 
 ## Cómo interpretar los resultados
 
