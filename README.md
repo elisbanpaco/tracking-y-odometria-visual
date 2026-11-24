@@ -26,7 +26,7 @@ Para una primera prueba, sigue el orden de la tabla. Cada guía explica cómo in
 
 ## Primeros pasos en Google Colab
 
-Abre [demo_colab.ipynb](demo_colab.ipynb), elige una experiencia y ejecuta las celdas en orden. El notebook incluye el código y los requisitos de las tres aplicaciones: no necesita clonar el repositorio.
+Abre [demo_colab.ipynb](demo_colab.ipynb), elige una experiencia y ejecuta las celdas en orden. El notebook descarga automáticamente el código y los requisitos desde `apps/` en la rama `main` de GitHub. No necesitas copiar archivos manualmente.
 
 [Abrir en Colab](https://colab.research.google.com/github/elisbanpaco/tracking-y-odometria-visual/blob/main/demo_colab.ipynb)
 
@@ -69,7 +69,7 @@ apps/
 
 Cada aplicación incluye su guía, sus requisitos y un `app.py` autónomo con el servidor y la interfaz web. El radar y los reportes de tránsito comparten el procesamiento en una sola aplicación.
 
-El notebook de la raíz presenta el recorrido por etapas. Incluye una copia de las aplicaciones; si modificas `apps/`, actualiza también su celda «Cargar las aplicaciones incluidas».
+El notebook de la raíz presenta el recorrido por etapas y ejecuta las aplicaciones descargadas de GitHub. Al publicar cambios en `apps/` en la rama `main`, estarán disponibles al repetir la descarga. La celda muestra el commit descargado para identificar la versión utilizada.
 
 Los modelos, las cachés y las carpetas habituales de resultados se excluyen de Git. Puedes incorporar videos, imágenes y CSV seleccionados como evidencias: esos formatos no se ignoran globalmente.
 
