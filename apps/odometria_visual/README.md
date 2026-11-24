@@ -51,7 +51,7 @@ La idea es observar cuánto del desplazamiento de la imagen puede explicarse por
 
 Los *inliers* son correspondencias aceptadas por la estimación geométrica. Los registros se mantienen en el navegador hasta descargarlos al detener. Esta aplicación exporta CSV; no guarda un video anotado ni una carpeta de trabajos en el servidor.
 
-La interfaz y el CSV conservan nombres como «real» y `v_real_kmh`: deben interpretarse como **velocidad compensada estimada**, no como una medición de referencia.
+La interfaz muestra **velocidad compensada estimada**. El CSV conserva el nombre `v_real_kmh` por compatibilidad; representa esa estimación, no una medición de referencia.
 
 ## Relación con el enunciado
 
