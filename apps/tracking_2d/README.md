@@ -22,34 +22,47 @@ Abre el `LINK PÚBLICO` de la salida. Si necesitas ayuda para cargar los archivo
 
 El procesamiento de videos necesita **FFmpeg**. Comprueba si está disponible con `!ffmpeg -version`. Si falta en Colab, ejecuta `!apt-get -qq update` y después `!apt-get -qq install -y ffmpeg`. El arranque también utiliza `wget` y `chmod` para preparar el túnel.
 
-## Tu primer experimento
+## Recorrido de la etapa 02
 
-1. Elige una escena de cámara fija donde personas o vehículos crucen una zona visible.
-2. Abre la sección de tracking y selecciona video o cámara en vivo.
-3. Elige ByteTrack o BoT-SORT, las clases que quieres seguir y la confianza mínima de detección.
-4. Sitúa la línea virtual en el paso de los objetos y comienza el análisis.
-5. Observa los IDs y los cruces. En webcam, pulsa «Detener y guardar» para obtener el resumen y descargar el CSV.
-
-Prueba ambos trackers con el mismo video y la misma línea. Observa qué ocurre con los IDs cuando dos objetos se cruzan o uno queda oculto. El conteo distingue dos sentidos y registra como máximo una entrada y una salida por ID.
-
-## Qué puedes obtener
-
-| Con un video | Con la webcam |
+| Apartado | Qué probar |
 | --- | --- |
-| Video anotado, trayectorias y conteo de cruces | Cajas, IDs, trayectorias y conteo en vivo |
-| Mapa de calor y gráficas de actividad y cruces | Gráfica de objetos activos |
-| Resumen por ID con velocidad media en px/s | Resumen de recorridos al detener |
-| Descargas `trayectorias.csv` y `resultados.json` | Descarga `trayectorias_en_vivo.csv` |
+| a · Comparación conceptual | Explora las animaciones de tracking 2D y estimación 3D. Las cargas y tiempos mostrados son ilustrativos. |
+| b · Tracking | Elige video o webcam fija, ByteTrack o BoT-SORT y una línea de conteo. Observa IDs, cruces y trayectorias. |
+| c · Velocidad y zonas | Consulta px/s, la cuadrícula 3 × 3 y el mapa de calor. Puedes cambiar entre b y c conservando el análisis. |
+| d · Cámara móvil | Abre la cámara, captura una referencia de un fondo plano con textura y compara trayectorias originales y compensadas. |
 
-Los CSV registran ID, clase, frame, tiempo y centro del objeto `(cx, cy)`: puedes usarlos para reconstruir las trayectorias. Los trabajos de video se guardan en el servidor; las filas de la webcam permanecen en el navegador hasta descargarlas.
+El conteo registra como máximo una entrada y una salida por ID. Una pérdida de seguimiento puede asignar otro ID al mismo objeto.
 
-## Qué enseña y hasta dónde llega
+### Calibrar una distancia en el apartado c
 
-Esta experiencia corresponde a la etapa 02: comparar tracking 2D y odometría, seguir objetos, contar cruces y analizar trayectorias. La velocidad media en px/s se calcula al terminar el video. El modo webcam no ofrece velocidad instantánea ni mapa de calor, por lo que ese apartado del enunciado queda cubierto solo parcialmente.
+1. Selecciona un video o inicia la webcam.
+2. Pulsa «Marcar referencia» y marca los extremos de una distancia conocida.
+3. Introduce los metros y pulsa «Aplicar referencia». En video, hazlo antes del análisis.
 
-Los píxeles describen desplazamientos en la imagen. Para estimar metros por segundo necesitas una referencia física y considerar la perspectiva; puedes explorar esa calibración en el [radar de tráfico](../radar_trafico/README.md).
+La conversión a m/s usa una escala local: la referencia y los objetos deben estar en un plano y a una profundidad similares. Reiniciar la cámara o cambiar de archivo requiere marcar otra referencia. La perspectiva puede invalidar una única escala para toda la escena.
 
-Después, prueba una cámara móvil: el fondo y los objetos estacionados también se desplazan en la imagen. La [odometría visual](../odometria_visual/README.md) permite estudiar cómo compensar ese movimiento. Un cambio de ID tras una oclusión puede afectar tanto el conteo como la trayectoria.
+### Compensar movimiento en el apartado d
+
+1. Abre la cámara y encuadra un fondo plano con textura.
+2. Cuando aparezca «Fondo listo», mantén la cámara quieta y pulsa «Capturar referencia».
+3. Mueve suavemente la cámara y compara amarillo (original) con verde (compensado).
+4. Pulsa «Detener y guardar CSV» antes de cerrar.
+
+ORB y una homografía estiman la transformación respecto a la referencia. Si se pierde, se suspenden las mediciones compensadas. Los cruces se cuentan sobre la línea fija de esa referencia; no se unen recorridos a través de pérdidas de seguimiento.
+
+Esta demostración trabaja en píxeles de referencia sobre un plano: no estima pose 3D ni distancias métricas. La [aplicación de odometría visual](../odometria_visual/README.md) corresponde al nivel 3 de la etapa 03. El [radar](../radar_trafico/README.md) reúne velocidades en km/h, alertas y reportes de tránsito.
+
+## Resultados
+
+| Modo | Qué obtienes |
+| --- | --- |
+| Video | Video anotado con px/s y zonas, resumen de velocidades medias y mapa de calor; descargas `video.mp4`, `mapa_calor.png`, `trayectorias.csv` y `resultados.json` |
+| Webcam fija | Velocidad aparente, zona, trayectorias, conteos y mapa de calor en vivo; descarga `trayectorias_en_vivo.csv` al detener |
+| Cámara móvil planar | Comparación de recorridos, velocidades y cruces en referencia; descarga `comparacion_planar.csv` al detener |
+
+Los CSV de tracking incluyen ID, clase, frame, tiempo, centro, velocidad en px/s y zona. Si aplicaste una referencia métrica, incluyen la escala y la velocidad aproximada en m/s. El CSV planar separa las referencias por segmento y registra la validez de la compensación.
+
+El mapa de calor acumula detecciones: no representa objetos únicos ni tiempo exacto de permanencia. La velocidad compara la última posición de cada ID con la actual; el ruido de las cajas puede afectar el resultado. Los datos de webcam y cámara móvil permanecen en el navegador hasta descargarlos.
 
 ## Ajustes opcionales
 
@@ -68,3 +81,13 @@ Puedes iniciar con los valores predeterminados. Si falta memoria, reduce el núm
 Seis instancias pueden requerir más memoria de la disponible. El modelo y `cloudflared` se descargan en el directorio desde el que ejecutas el programa. Al subir un video, la aplicación elimina carpetas de trabajos de más de dos horas dentro de `JOBS_DIR`: dedica esa ruta solo a sus resultados y descarga lo que quieras conservar.
 
 Descarga los resultados antes de interrumpir la ejecución. El cierre solicita detener los análisis, libera el servidor y termina el túnel.
+
+Comprobaciones incorporadas, sin crear archivos de pruebas en el repositorio:
+
+```bash
+python apps/tracking_2d/app.py --autoprueba
+python apps/tracking_2d/app.py --autoprueba-planar
+JOBS_DIR=/tmp/prueba-video python apps/tracking_2d/app.py --autoprueba-video
+```
+
+La primera valida cálculos básicos; la segunda usa OpenCV y escenas sintéticas. La tercera requiere las dependencias y FFmpeg y comprueba exportaciones con detecciones simuladas; no valida YOLO real.
